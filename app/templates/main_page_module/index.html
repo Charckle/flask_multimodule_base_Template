@@ -1,0 +1,49 @@
+{% extends "main_page_module/base.html" %}
+
+{% block extraheader %}
+{% endblock extraheader  %}
+
+{% block nav_index %}active{% endblock nav_index %}
+
+{% block nav_login_out %}
+  {% if session['user_id'] %}
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('main_page_module.logout') }}">Logout </a>
+    </li>
+  {% else %}
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('main_page_module.login') }}">Login </a>
+    </li>
+  {% endif %}
+{% endblock nav_login_out %}
+
+
+{% block flashes %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div>
+        {% for category, message in messages %}
+          {% if category == "error" %}
+            <div class="alert alert-danger" role="alert">
+              {{ message }}
+            </div>
+            <br>
+          {% else %}
+            <div class="alert alert-success" role="alert">
+              {{ message }}
+            </div>
+            <br>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+{% endblock flashes %}
+
+
+{% block content%}
+<h1>Hello, world!</h1>
+<p>This is the index page of the...page!</p>
+
+
+{% endblock content %}
