@@ -44,8 +44,14 @@ def login():
             return redirect(url_for('main_page_module.index'))
 
         flash('Wrong email or password', 'error')
-
-    return render_template("main_page_module/auth/login.html", form=form)
+    
+    try:
+        if(session['user_id']):
+            return redirect(url_for("main_page_module.index"))
+    
+    except:
+        return render_template("main_page_module/auth/login.html", form=form)
+        
 
 @main_page_module.route('/logout/')
 def logout():
