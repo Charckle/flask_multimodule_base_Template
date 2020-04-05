@@ -1,3 +1,0 @@
-# Abilitazione utenti
-
-Come da manuale. Si aggiunge il attributo e inserisce sulla webpage.

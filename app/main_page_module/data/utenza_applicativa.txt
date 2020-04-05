@@ -1,9 +1,0 @@
-# Nome
-- NEVER EXCEED 20 chars in total
-
-# Dominio
-- crifnet, se non specificano differente
-
-#TAGS
-> utenza applicativa utenze applicative
-

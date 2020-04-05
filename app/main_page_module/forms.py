@@ -13,40 +13,6 @@ from app.main_page_module.models import User
 import re
 import os.path
 
-
-# Define the login form (WTForms)
-
-class EditEntryForm(FlaskForm):
-
-    entry_text = TextAreaField('Entry Text', [validators.InputRequired(message='You need to fill something.')])
-    
-    submit = SubmitField('Submit changes')
-    
-class EntryForm(FlaskForm):
-    name = StringField('Name of new entry', [validators.InputRequired(message='You need to specify a name'),
-                                             validators.Length(max=128)])
-    entry_text = TextAreaField('Entry Text', [validators.InputRequired(message='You need to fill something.')])
-    
-    submit = SubmitField('Add Entry')
-    
-    def validate_name(self, name):
-        
-        #check if there is another entry with the same name
-        name = str(name.data).strip().replace(' ', '_') 
-        name = re.sub(r'(?u)[^-\w.]', '', name)
-        
-        storage_location = "app//main_page_module//data//"
-        files = []
-        # r=root, d=directories, f = files
-        for _, _, f in os.walk(storage_location):
-            for file in f:
-                if '.txt' in file:
-                    files.append(file)  
-        
-        if name+".txt" in files:
-            raise ValidationError('Entry already exists. Please use a different name for the entry')     
-      
-
 class LoginForm(FlaskForm):
     username_or_email = StringField('Username or Email', [validators.InputRequired(message='Forgot your email address?')])
     password = PasswordField('Password', [validators.InputRequired(message='Must provide a password.')])
