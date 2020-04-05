@@ -1,44 +1,22 @@
-{% extends "main_page_module/base.html" %}
 
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-{% block extraheader %}
-{% endblock %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/4.0/examples/sign-in/signin.css" rel="stylesheet">
 
-{% block nav_login_out %}
-  {% if session['user_id'] %}
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('main_page_module.logout') }}">Logout </a>
-    </li>
-  {% else %}
-    <li class="nav-item active">
-      <a class="nav-link" href="{{ url_for('main_page_module.login') }}">Login </a>
-    </li>
-  {% endif %}
-{% endblock nav_login_out %}
+    <title>HDSearch CRIF</title>
 
+  </head>
 
-{% block flashes %}
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      <div>
-        {% for category, message in messages %}
-          {% if category == "error" %}
-            <div class="alert alert-danger" role="alert">
-              {{ message }}
-            </div>
-            <br>
-          {% else %}
-            <div class="alert alert-success" role="alert">
-              {{ message }}
-            </div>
-            <br>
-          {% endif %}
-        {% endfor %}
-      </div>
-    {% endif %}
-  {% endwith %}
-{% endblock %}
+  <body class="text-center">
 
 
 {% block content%}
@@ -68,7 +46,27 @@
 
 
 <div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div>
+        {% for category, message in messages %}
+          {% if category == "error" %}
+            <div class="alert alert-danger" role="alert">
+              {{ message }}
+            </div>
+            <br>
+          {% else %}
+            <div class="alert alert-success" role="alert">
+              {{ message }}
+            </div>
+            <br>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
   <div>
+    <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
     <legend>Sign in</legend>
 
     <form method="POST" action="." accept-charset="UTF-8" role="form">
@@ -78,7 +76,7 @@
       {{ render_field(form.password, placeholder="Password") }}
       <div>
       <label>
-        <input type="checkbox" name="remember" value="1"> Remember Me
+        <input type="checkbox" name="remember"> Remember Me
       </label>
       <a role="button" href="">Forgot your password?</a><span class="clearfix"></span>
       </div>
@@ -90,3 +88,6 @@
   </div>
 </div>
 {% endblock %}
+
+</body>
+</html>

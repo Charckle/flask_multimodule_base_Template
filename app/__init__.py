@@ -4,11 +4,16 @@ from flask import Flask, render_template
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
 
+from flaskext.markdown import Markdown
+
+
 # Define the WSGI application object
 app = Flask(__name__)
 
 # Configurations
 app.config.from_object("config.DevelopmentConfig")
+
+Markdown(app)
 
 # Define the database object which is imported
 # by modules and controllers

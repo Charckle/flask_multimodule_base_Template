@@ -53,4 +53,27 @@ class User(Base):
             self.password = generate_password_hash(password)
     
     def check_password(self, password):
-        return check_password_hash(self.password, password)    
+        return check_password_hash(self.password, password) 
+
+# Define a User model
+class Entry(Base):
+
+    __tablename__ = 'entrytable'
+
+    # User Name
+    name    = db.Column(db.String(128),  nullable=False,
+                            unique=True)
+    
+    # filename
+    filename    = db.Column(db.String(128),  nullable=False,
+                            unique=True)    
+    
+
+    # New instance instantiation procedure
+    def __init__(self, name, filename):
+
+        self.name     = name
+        self.filename = filename
+
+    def __repr__(self):
+        return '<User %r>' % (self.name)
