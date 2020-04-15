@@ -12,37 +12,45 @@ from app.main_page_module.models import User
 #import os
 import re
 import os
+from functools import wraps
 
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 main_page_module = Blueprint('main_page_module', __name__, url_prefix='/')
 
-#login check
-def check_login():
-    if "user_id" not in session:
-        return True
+#login decorator
+def login_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        if 'user_id' in session:
+            return f(*args, **kwargs)
         
+        else:
+            flash("Please login to access the site.", "error")
+            
+            return redirect(url_for("main_page_module.login"))
+    
+    return wrapper
     
 # Set the route and accepted methods
 @main_page_module.route('/', methods=['GET', 'POST'])
+@login_required
 def index():
-    if check_login(): return redirect(url_for("main_page_module.login"))  
 
     return render_template("main_page_module/index.html")
-        
+
+
 @main_page_module.route('/admin/all_users/')
-def all_users():
-    if check_login(): return redirect(url_for("main_page_module.login"))  
-    
+@login_required
+def all_users():    
     users = User.query.all()
    
     return render_template("main_page_module/admin/all_users.html", users=users)
 
 
 @main_page_module.route('/admin/view_user/<user_id>')
-def view_user(user_id):
-    if check_login(): return redirect(url_for("main_page_module.login"))  
-    
+@login_required
+def view_user(user_id):    
     user = User.query.filter_by(id=user_id).first()
    
     if not user:
@@ -57,9 +65,8 @@ def view_user(user_id):
     return render_template("main_page_module/admin/view_user.html", form=form, user=user)
 
 @main_page_module.route('/admin/modify_user/', methods=['POST'])
-def modify_user():
-    if check_login(): return redirect(url_for("main_page_module.login"))  
-    
+@login_required
+def modify_user():    
     form = EditUserForm(request.form)
     
     if form.validate_on_submit():
@@ -88,9 +95,8 @@ def modify_user():
     
 
 @main_page_module.route('/admin/delete/', methods=['POST'])
+@login_required
 def delete_user():
-    if check_login(): return redirect(url_for("main_page_module.login"))  
-    
     user_id = request.form["id"]
     
     user = User.query.filter_by(id=user_id).first()
